@@ -1,0 +1,57 @@
+/* 
+    i: Ignora mayúsculas y minúsculas (case-insensitive).
+    g: Realiza una búsqueda global en todo el texto, en lugar de detenerse después de encontrar la primera coincidencia.
+    m: Trata el texto como múltiples líneas. Esto afecta el comportamiento de los caracteres de inicio y fin de línea (^ y $), haciendo que coincidan con el inicio y el final de cada línea, en lugar del inicio y el final del texto completo.
+    s: Modifica el comportamiento del carácter de punto (.) para que coincida también con el carácter de nueva línea (\n).
+    x: Permite agregar espacios en blanco y comentarios dentro de la expresión regular para mejorar la legibilidad.
+    U: Hace que la búsqueda sea no codiciosa, lo que significa que intentará encontrar la coincidencia más corta en lugar de la más larga.
+    u: Habilita el soporte para Unicode en la expresión regular, lo que permite trabajar con caracteres Unicode.
+    D: Hace que el carácter de inicio (^) coincida con el inicio del texto, y no con el inicio de cada línea en modo multilínea.
+    x: Permite escribir expresiones regulares de forma extendida, lo que significa que los espacios en blanco y los comentarios dentro de la expresión regular son ignorados.
+    */
+
+/*
+[]: Coincide con cualquier carácter dentro de los corchetes.
+[^]: Coincide con cualquier carácter que no esté dentro de los corchetes.
+.: Conicide con cualquier carácter, excepto los saltos de línea.
+\w: Coincide con cualquier carácter alfanumérico, incluyendo guiones bajos.
+\W: Coincide con cualquier carácter que no sea alfanumérico.
+\d: Coincide con cualquier dígito.
+\D: Coincide con cualquier carácter que no sea un dígito.
+\s: Coincide con cualquier carácter de espacio en blanco.
+\S: Coincide con cualquier carácter que no sea un espacio en blanco.
+
+CUANTIFICADORES
+?: Coincide con 0 o 1 ocurrencia del carácter anterior.
+*: Coincide con 0 o más ocurrencias del carácter anterior.
++: Coincide con 1 o más ocurrencias del carácter anterior.
+{n}: Coincide con exactamente n ocurrencias del carácter anterior.
+{n,}: Coincide con n o más ocurrencias del carácter anterior.
+{n,m}: Coincide con entre n y m ocurrencias del carácter anterior.
+*/
+
+
+// Path: test-js/regex
+
+// Flags: i
+const re1 = new RegExp('bar','i');
+let checked = 'bar';
+// true
+console.log(re1.test(checked));
+checked = 'BAR';
+console.log(re1.test(checked));
+// false
+checked='foo';
+console.log(re1.test(checked));
+
+// Flags: g
+const re2 = new RegExp('[^bar]','g');
+checked='checkbar';
+console.log(re2.test(checked));
+
+// Sanitizar un XSS payload
+const xss = "<script>alert('XSS')</script>";
+
+const re3 = new RegExp('<script>.+</script>','g');
+// Devolver la cadena resultante
+console.log(xss.replace(re3,''));
